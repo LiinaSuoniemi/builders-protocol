@@ -35,6 +35,51 @@ You do not have to use all six every time. A small fix might only need CODEKEEPE
 
 ---
 
+## Where do I start?
+
+**I have an idea but have not started building yet** → BRAINSTORM
+
+**I know what to build and need to write code from scratch** → CODEMAKER
+
+**I have code I did not write or do not fully understand** → VIBECODER
+
+**I need to fix a bug or add a feature to existing code** → CODEKEEPER
+
+**My code is ready and I want to check it before deploying** → GUARDIAN
+
+**I have AI features talking to real users** → GUARDIAN then SENTINEL
+
+**I inherited someone else's codebase** → VIBECODER first, then decide from there
+
+---
+
+## Using individual tools
+
+You do not need the full pipeline every time. Pick the entry point that fits what you actually have in front of you.
+
+| Situation | Tools |
+|-----------|-------|
+| Fix a bug in code you know well | CODEKEEPER → GUARDIAN |
+| Add a feature to existing code | CODEKEEPER → GUARDIAN |
+| New feature on an existing project, scope unclear | BRAINSTORM → CODEMAKER → GUARDIAN |
+| Inherited a codebase, no documentation | VIBECODER → CODEKEEPER |
+| Audit before a production push | GUARDIAN |
+| AI system already live, want to stress-test it | SENTINEL |
+| Vibe-coded project, unclear what was built | VIBECODER → GUARDIAN → SENTINEL |
+| Quick idea check, not ready to build yet | BRAINSTORM only |
+| Security review only, no new code | GUARDIAN → SENTINEL |
+| Taking over someone else's AI project | VIBECODER → GUARDIAN → SENTINEL |
+| Refactor with no new features | CODEKEEPER → GUARDIAN |
+| Pre-launch audit with AI components | GUARDIAN → SENTINEL |
+
+**SENTINEL** is for AI systems with real users. Standard web app, no AI features — skip it. GUARDIAN covers the rest.
+
+**BRAINSTORM** is for when scope is unclear. If you already know exactly what to build, skip it and go straight to CODEMAKER.
+
+**VIBECODER** is the right entry point any time you are working with code you did not write or have not read — whether that is inherited, AI-generated, or just unfamiliar.
+
+---
+
 ## Who this is for
 
 Builders who:
@@ -131,11 +176,7 @@ But if you find yourself forgetting which tool to use next, or losing context be
 
 **Session notes** - saving what you learned at the end of each session means the next session starts with context instead of from zero. It compounds over time.
 
-None of this is required to use Builder's Protocol. But if you want to understand how to set it up properly - hooks, project instructions, session workflows, the full picture - Jon Gerton covers all of it in his community.
-
-**You Craft and AI Helps** - [join here (free)](https://www.skool.com/you-craft-ai-helps/about?ref=37798d7ddad04c0eba94008aa147ebed)
-
-It is where the how lives.
+None of this is required to use Builder's Protocol. But if you want to understand how to set it up properly - hooks, project instructions, session workflows, the full picture - Jon Gerton covers all of it in his community (link in the New to Claude Code section above).
 
 ---
 
