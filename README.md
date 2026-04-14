@@ -168,7 +168,7 @@ The skills work as standalone tools. No extra setup required.
 
 But if you find yourself forgetting which tool to use next, or losing context between sessions, Claude Code has two features worth knowing about.
 
-**Hooks** are small reminders you can set up in Claude Code's settings. They fire automatically at specific moments — at the start of a session, after each response, when a file is written. You can use them to display the pipeline order every time you open Claude Code, or to prompt yourself to run GUARDIAN before pushing code. If you are the kind of person who gets deep into building and forgets the safety steps, hooks solve that.
+**Hooks** are small reminders you can set up in Claude Code's settings. They fire automatically at specific moments - at the start of a session, after each response, when a file is written. You can use them to display the pipeline order every time you open Claude Code, or to prompt yourself to run GUARDIAN before pushing code. If you are the kind of person who gets deep into building and forgets the safety steps, hooks solve that.
 
 **Project instructions** let you write a persistent note that Claude Code reads at the start of every session. Your tech stack, your rules, which tool handles which job. You write it once in a file called `CLAUDE.md` in your project folder. Every session starts with that context already loaded - you do not have to re-explain your project each time.
 
