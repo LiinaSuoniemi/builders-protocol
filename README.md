@@ -23,7 +23,7 @@ BRAINSTORM → CODEMAKER → VIBECODER → CODEKEEPER → GUARDIAN → SENTINEL
 | Step | Tool | What it does |
 |------|------|-------------|
 | 0 | BRAINSTORM | Turns a rough idea into a clear plan before anything gets built |
-| 1 | CODEMAKER | Builds new projects from scratch — clean, safe, documented |
+| 1 | CODEMAKER | Builds new projects from scratch - clean, safe, documented |
 | 2 | VIBECODER | Scans what was built and reports what to watch out for |
 | 3 | CODEKEEPER | Maintains, fixes, and extends existing code |
 | 4 | GUARDIAN | Reviews everything before it goes live |
