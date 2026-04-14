@@ -72,11 +72,11 @@ You do not need the full pipeline every time. Pick the entry point that fits wha
 | Refactor with no new features | CODEKEEPER → GUARDIAN |
 | Pre-launch audit with AI components | GUARDIAN → SENTINEL |
 
-**SENTINEL** is for AI systems with real users. Standard web app, no AI features — skip it. GUARDIAN covers the rest.
+**SENTINEL** is for AI systems with real users. Standard web app, no AI features - skip it. GUARDIAN covers the rest.
 
 **BRAINSTORM** is for when scope is unclear. If you already know exactly what to build, skip it and go straight to CODEMAKER.
 
-**VIBECODER** is the right entry point any time you are working with code you did not write or have not read — whether that is inherited, AI-generated, or just unfamiliar.
+**VIBECODER** is the right entry point any time you are working with code you did not write or have not read - whether that is inherited, AI-generated, or just unfamiliar.
 
 ---
 
