@@ -72,11 +72,11 @@ You do not need the full pipeline every time. Pick the entry point that fits wha
 | Refactor with no new features | CODEKEEPER → GUARDIAN |
 | Pre-launch audit with AI components | GUARDIAN → SENTINEL |
 
-**SENTINEL** is for AI systems with real users. Standard web app, no AI features — skip it. GUARDIAN covers the rest.
+**SENTINEL** is for AI systems with real users. Standard web app, no AI features - skip it. GUARDIAN covers the rest.
 
 **BRAINSTORM** is for when scope is unclear. If you already know exactly what to build, skip it and go straight to CODEMAKER.
 
-**VIBECODER** is the right entry point any time you are working with code you did not write or have not read — whether that is inherited, AI-generated, or just unfamiliar.
+**VIBECODER** is the right entry point any time you are working with code you did not write or have not read - whether that is inherited, AI-generated, or just unfamiliar.
 
 ---
 
@@ -168,7 +168,7 @@ The skills work as standalone tools. No extra setup required.
 
 But if you find yourself forgetting which tool to use next, or losing context between sessions, Claude Code has two features worth knowing about.
 
-**Hooks** are small reminders you can set up in Claude Code's settings. They fire automatically at specific moments — at the start of a session, after each response, when a file is written. You can use them to display the pipeline order every time you open Claude Code, or to prompt yourself to run GUARDIAN before pushing code. If you are the kind of person who gets deep into building and forgets the safety steps, hooks solve that.
+**Hooks** are small reminders you can set up in Claude Code's settings. They fire automatically at specific moments - at the start of a session, after each response, when a file is written. You can use them to display the pipeline order every time you open Claude Code, or to prompt yourself to run GUARDIAN before pushing code. If you are the kind of person who gets deep into building and forgets the safety steps, hooks solve that.
 
 **Project instructions** let you write a persistent note that Claude Code reads at the start of every session. Your tech stack, your rules, which tool handles which job. You write it once in a file called `CLAUDE.md` in your project folder. Every session starts with that context already loaded - you do not have to re-explain your project each time.
 
