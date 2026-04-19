@@ -186,6 +186,8 @@ None of this is required to use Builder's Protocol. But if you want to understan
 
 **Simon Willison** - the Lethal Trifecta check inside GUARDIAN (private user data + untrusted input + external action capability = critical security risk) is based on his work. Source: Lenny Podcast, April 2026.
 
+**Matthew Sutherland** - the web content injection checks in VIBECODER, GUARDIAN and SENTINEL (instructions hidden in HTML comments, script tags, and third-party plugin output that target AI tools reading the page), the concealment instruction detection ("never tell the user" as the clearest tell of prompt injection), and the model variance note in SENTINEL (different models catch different injections, test across models on identical fixtures) are based on his real-world audit findings. Matthew is the founder of [ByteFlowAI](https://www.linkedin.com/in/matthew-sutherland-byteflowai/).
+
 ---
 
 ## Philosophy
