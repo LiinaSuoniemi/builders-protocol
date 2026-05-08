@@ -50,9 +50,9 @@ You do not have to use all seven every time. A small fix might only need CODEKEE
 
 **I have AI features talking to real users** → GUARDIAN then SENTINEL
 
-**I am about to push to production** → DEPLOY (after the others have run and passed)
+**I inherited someone else's codebase** → VIBECODER to map what is there, then CODEKEEPER for fixes
 
-**I inherited someone else's codebase** → VIBECODER first, then decide from there
+**Whatever path you take, if the code is going to real users** → DEPLOY runs last. Always. No exceptions.
 
 ---
 
@@ -137,6 +137,8 @@ Each tool is a folder with a `SKILL.md` file inside. The folder name becomes the
 /deploy
 ```
 
+**Step 4.** Verify it worked. Type `/brainstorm` in a fresh Claude Code session. If the skill activates and starts asking you questions about your idea, the install is correct. If nothing happens, check that the folder is at exactly `~/.claude/skills/brainstorm/SKILL.md` (Mac/Linux) or `C:\Users\[your-username]\.claude\skills\brainstorm\SKILL.md` (Windows) — the folder name has to match the slash command.
+
 ---
 
 ## New to Claude Code?
@@ -145,15 +147,121 @@ If you have never used Claude Code before, start with Jon Gerton's community bef
 
 **You Craft and AI Helps** - [join here (free)](https://www.skool.com/you-craft-ai-helps/about?ref=37798d7ddad04c0eba94008aa147ebed)
 
-Jon teaches Claude Code from the beginning - what it is, how to set it up, how to actually use it. There are 7 courses and 84 modules covering the basics through advanced workflows. Free to join. Once you have the basics down, come back here and the skills will make immediate sense.
+Jon teaches Claude Code from the beginning - what it is, how to set it up, how to actually use it. Courses cover the basics through advanced workflows. Free to join. Once you have the basics down, come back here and the skills will make immediate sense.
 
 ---
 
 ## Configuration
 
-Some tools have an **ADAPT THIS SECTION** block inside the SKILL.md file. Fill it in with your project details before running the tool. This is where you tell the tool your project name, tech stack, known issues, and any areas that need extra care.
+Four tools have an **ADAPT THIS SECTION** block at the end of their SKILL.md file: **BRAINSTORM, CODEMAKER, CODEKEEPER, VIBECODER**. Open the file, fill in your project name, tech stack, deployment platform, and any areas that must not be changed without explicit permission. The tool reads this on every run so you do not have to repeat the context.
 
-**GUARDIAN** has an alert email field. Replace `[YOUR_ALERT_EMAIL]` with your address to receive a notification when critical security findings are found.
+**GUARDIAN, SENTINEL, and DEPLOY** do not have ADAPT blocks. They run on whatever you describe to them at activation, plus the reports they read from `reviews/` (see next section).
+
+These skills do not send email or push notifications by default. Reports are written to chat and saved to `reviews/TOOLNAME-YYYYMMDD.md`. If you want alerts when a report contains a Critical finding, wire it up yourself. Three working setups below.
+
+### Alert on Critical findings — three options
+
+Each option uses the same trigger: a script that scans the most recent file in `reviews/` for the word `CRITICAL` and pings you if it finds one. Pick the one that fits your stack.
+
+**Option 1 — Slack webhook (free, 5 minutes)**
+
+1. Create an incoming webhook at https://api.slack.com/messaging/webhooks. Copy the URL.
+2. Save this as `alert.sh` in your project root:
+
+```bash
+#!/bin/bash
+WEBHOOK="https://hooks.slack.com/services/YOUR/WEBHOOK/URL"
+LATEST=$(ls -t reviews/*.md 2>/dev/null | head -1)
+if [ -n "$LATEST" ] && grep -q CRITICAL "$LATEST"; then
+  curl -X POST -H "Content-Type: application/json" \
+    --data "{\"text\":\":rotating_light: Critical finding in $LATEST\"}" \
+    "$WEBHOOK"
+fi
+```
+
+3. Run `bash alert.sh` after each VIBECODER, GUARDIAN, or SENTINEL session.
+
+**Option 2 — Email via Resend (free for 100 emails/day)**
+
+1. Sign up at https://resend.com, get an API key, verify a sending domain.
+2. Save as `alert.sh`:
+
+```bash
+#!/bin/bash
+LATEST=$(ls -t reviews/*.md 2>/dev/null | head -1)
+if [ -n "$LATEST" ] && grep -q CRITICAL "$LATEST"; then
+  curl -X POST "https://api.resend.com/emails" \
+    -H "Authorization: Bearer YOUR_RESEND_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d "{\"from\":\"alerts@yourdomain.com\",\"to\":\"you@yourdomain.com\",\"subject\":\"Critical finding in Builder's Protocol review\",\"text\":\"File: $LATEST\"}"
+fi
+```
+
+3. Run after each session.
+
+**Option 3 — Desktop notification (no third-party service)**
+
+```bash
+#!/bin/bash
+LATEST=$(ls -t reviews/*.md 2>/dev/null | head -1)
+if [ -n "$LATEST" ] && grep -q CRITICAL "$LATEST"; then
+  # macOS
+  osascript -e "display notification \"Critical in $LATEST\" with title \"Builder's Protocol\""
+  # Linux
+  # notify-send "Builder's Protocol" "Critical in $LATEST"
+  # Windows PowerShell (requires BurntToast module)
+  # New-BurntToastNotification -Text "Builder's Protocol", "Critical in $LATEST"
+fi
+```
+
+Uncomment the line for your OS.
+
+### Run it automatically
+
+Two ways to make the alert fire without you typing the command each time.
+
+**Claude Code hook (fires when a session ends)** — open `~/.claude/settings.json` and add a `Stop` hook that runs `bash /path/to/your/project/alert.sh`. Exact hook syntax is in Claude Code's documentation (run `/help` in your Claude Code session or check the Anthropic docs). The `update-config` skill in Claude Code can write the hook for you if you describe what you want.
+
+**Cron job (fires on a schedule)** — add a line to your crontab to run `alert.sh` every 10 minutes:
+
+```
+*/10 * * * * cd /path/to/your/project && bash alert.sh
+```
+
+Cron is the simpler option if you do not want to deal with hook syntax.
+
+### Hardening notes
+
+- Add `alert.sh` to `.gitignore` if it contains your webhook URL or API key.
+- Better: store secrets in environment variables and reference them in the script (`$RESEND_API_KEY`, `$SLACK_WEBHOOK`).
+- The script above only catches `CRITICAL`. If you also want HIGH alerts, change `grep -q CRITICAL` to `grep -qE 'CRITICAL|HIGH'`.
+- If you run multiple Builder's Protocol projects, drop the script into each project root. The `reviews/` path is project-relative.
+
+### Make the pipeline mechanical: wire up Archon
+
+DEPLOY enforces **human judgment**. If you also want mechanical enforcement so VIBECODER, GUARDIAN, and SENTINEL **cannot be skipped or forgotten**, wire Archon underneath.
+
+Archon is Cole Medin's open-source harness builder. It encodes a development process as YAML workflows that are non-skippable. Repo: [github.com/coleam00/Archon](https://github.com/coleam00/Archon) (MIT license).
+
+**Conceptual setup:**
+
+1. Install Archon — follow the install instructions in Archon's repo (the exact command may change as the project evolves).
+
+2. Create a workflow file in your project that defines the pipeline order. Each phase checks that the corresponding Builder's Protocol report exists in `reviews/` and passed:
+   - `vibecoder-scan` — expects `reviews/VIBECODER-*.md` to exist; fail if any unresolved CRITICAL findings
+   - `guardian-review` — expects `reviews/GUARDIAN-*.md`; fail if signal is RED
+   - `sentinel-eval` — expects `reviews/SENTINEL-*.md`; fail if result is FAIL (only required if the project has AI components)
+   - `deploy-gate` — expects `reviews/DEPLOY-LOG.md` updated for current version; fail if not GREEN
+
+3. Configure Archon to **block any production push** if any phase is missing or failing.
+
+4. Archon now enforces the technical pipeline mechanically. You still run DEPLOY at the end for the human judgment gate. Mechanical enforcement and human judgment are different jobs; you want both.
+
+**Why both Archon and DEPLOY:**
+
+Archon catches mechanical lapses (you forgot to run SENTINEL). DEPLOY catches judgment lapses (SENTINEL passed but you have not actually tested the kill switch). A clean Archon run does not mean it is safe to ship. A clean DEPLOY run after a clean Archon run does.
+
+**Refer to Archon's documentation** for the exact YAML syntax — Archon evolves and the README's job is to point you at the right tool, not to mirror its docs. Archon's repo has install instructions, example workflows, and version-specific syntax.
 
 ---
 
@@ -199,7 +307,7 @@ None of this is required to use Builder's Protocol. But if you want to understan
 
 Specific people made specific parts better. The rest I built.
 
-**Jon Gerton** — Jon-OS review of all six tools in March 2026 closed two SENTINEL gaps (pass/fail thresholds, injection library). Session-extract concept is his. Runs [You Craft and AI Helps](https://www.skool.com/you-craft-ai-helps/about?ref=37798d7ddad04c0eba94008aa147ebed).
+**Jon Gerton** — review of all six tools in March 2026 closed two SENTINEL gaps (pass/fail thresholds, injection library). Session-extract concept is his. Runs [You Craft and AI Helps](https://www.skool.com/you-craft-ai-helps/about?ref=37798d7ddad04c0eba94008aa147ebed).
 
 **Nicholas Vidal** — Guardianship framing, operating logic of GUARDIAN's phases, cascade failure framing (AI fails in loops, chains, and cascades). Six operational checks across the phases: named owner with response time (Phase 6), data impact labels (Phase 2), kill-switch drill (Phase 4), misuse moment script (Phase 2), logs need an owner (Phase 5), track changes log. [nicholasvidal.tech](https://nicholasvidal.tech/)
 

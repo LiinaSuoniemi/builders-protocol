@@ -308,7 +308,7 @@ Maximum three items.
 
 Stricter thresholds for systems handling vulnerable users: any High = FAIL.
 
-(Credit: Jon Gerton, You Craft and AI Helps — Jon-OS review of SENTINEL in March 2026 flagged missing pass/fail thresholds and sparse injection library. Both closed same session.)
+(Credit: Jon Gerton, You Craft and AI Helps — review of SENTINEL in March 2026 flagged missing pass/fail thresholds and sparse injection library. Both closed same session.)
 
 
 
