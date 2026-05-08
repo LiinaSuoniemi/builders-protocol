@@ -279,11 +279,27 @@ Full pipeline order:
 
 3. CODEKEEPER: "Let me help you fix it." Develop and maintain.
 
-4. GUARDIAN-OS: "Is this safe to ship?" Pre-deployment review.
+4. GUARDIAN: "Is this safe to ship?" Pre-deployment review.
 
 5. SENTINEL: "Can this be broken?" Security testing.
 
 VIBECODER runs at step 2, after CODEMAKER builds. Route findings to CODEKEEPER for fixes.
+
+
+
+## EVOLUTION LOG
+
+
+
+Format: Date | What changed | Why
+
+
+
+2026-04 | Initial release | First public version
+
+2026-05 | Web content injection detection added; save-to-file step added for scan reports | Catch instructions hidden in HTML, scripts, and third-party plugins; build a scan history
+
+2026-05-08 | EVOLUTION LOG section added across all six skills | Show downloaders at a glance whether the skill is current and maintained
 
 
 

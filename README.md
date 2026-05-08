@@ -1,6 +1,6 @@
 # Builder's Protocol
 
-A six-tool pipeline for building AI-assisted software safely.
+A seven-tool pipeline for building AI-assisted software safely.
 
 Built for solo developers and first-time builders who use Claude Code. Gives structure to the full build cycle - from rough idea to deployed product - with security checks at every stage.
 
@@ -10,14 +10,14 @@ Built for solo developers and first-time builders who use Claude Code. Gives str
 
 When you build with AI assistance, it is easy to end up with code that works but nobody fully understands. Or code that ships before anyone checked whether it is safe. Or a half-finished idea that becomes a half-finished product because the brief was never clear.
 
-Builder's Protocol gives you six focused tools, each with one job, used in order. Together they cover the full journey from "I have an idea" to "this is ready to ship."
+Builder's Protocol gives you seven focused tools, each with one job, used in order. Together they cover the full journey from "I have an idea" to "this is ready to ship."
 
 ---
 
 ## The pipeline
 
 ```
-BRAINSTORM → CODEMAKER → VIBECODER → CODEKEEPER → GUARDIAN → SENTINEL
+BRAINSTORM → CODEMAKER → VIBECODER → CODEKEEPER → GUARDIAN → SENTINEL → DEPLOY
 ```
 
 | Step | Tool | What it does |
@@ -28,10 +28,11 @@ BRAINSTORM → CODEMAKER → VIBECODER → CODEKEEPER → GUARDIAN → SENTINEL
 | 3 | CODEKEEPER | Maintains, fixes, and extends existing code |
 | 4 | GUARDIAN | Reviews everything before it goes live |
 | 5 | SENTINEL | Tests AI systems for security vulnerabilities |
+| 6 | DEPLOY | Pre-deployment gate. Confirms the previous tools ran and passed before anything ships |
 
-Each tool hands off to the next. BRAINSTORM produces a brief CODEMAKER can start from directly. VIBECODER documents what CODEMAKER built so CODEKEEPER can work safely. GUARDIAN reviews before SENTINEL tests.
+Each tool hands off to the next. BRAINSTORM produces a brief CODEMAKER can start from directly. VIBECODER documents what CODEMAKER built so CODEKEEPER can work safely. GUARDIAN reviews before SENTINEL tests. DEPLOY is the human confirmation gate that nothing ships without.
 
-You do not have to use all six every time. A small fix might only need CODEKEEPER and GUARDIAN. A new project starts at BRAINSTORM. An inherited codebase starts at VIBECODER.
+You do not have to use all seven every time. A small fix might only need CODEKEEPER and GUARDIAN. A new project starts at BRAINSTORM. An inherited codebase starts at VIBECODER. DEPLOY runs last, every time something goes to real users.
 
 ---
 
@@ -48,6 +49,8 @@ You do not have to use all six every time. A small fix might only need CODEKEEPE
 **My code is ready and I want to check it before deploying** → GUARDIAN
 
 **I have AI features talking to real users** → GUARDIAN then SENTINEL
+
+**I am about to push to production** → DEPLOY (after the others have run and passed)
 
 **I inherited someone else's codebase** → VIBECODER first, then decide from there
 
@@ -70,13 +73,16 @@ You do not need the full pipeline every time. Pick the entry point that fits wha
 | Security review only, no new code | GUARDIAN → SENTINEL |
 | Taking over someone else's AI project | VIBECODER → GUARDIAN → SENTINEL |
 | Refactor with no new features | CODEKEEPER → GUARDIAN |
-| Pre-launch audit with AI components | GUARDIAN → SENTINEL |
+| Pre-launch audit with AI components | GUARDIAN → SENTINEL → DEPLOY |
+| Pushing code to real users | DEPLOY (after previous tools passed) |
 
 **SENTINEL** is for AI systems with real users. Standard web app, no AI features - skip it. GUARDIAN covers the rest.
 
 **BRAINSTORM** is for when scope is unclear. If you already know exactly what to build, skip it and go straight to CODEMAKER.
 
 **VIBECODER** is the right entry point any time you are working with code you did not write or have not read - whether that is inherited, AI-generated, or just unfamiliar.
+
+**DEPLOY** runs last, every time. It is the human confirmation gate that the previous tools have actually run and passed before anything reaches real users. Do not skip it because the rest of the pipeline ran clean. The point of DEPLOY is the verification, not the verdict.
 
 ---
 
@@ -128,6 +134,7 @@ Each tool is a folder with a `SKILL.md` file inside. The folder name becomes the
 /codekeeper
 /guardian
 /sentinel
+/deploy
 ```
 
 ---
@@ -160,6 +167,14 @@ VIBECODER, CODEKEEPER, GUARDIAN, and SENTINEL save their reports to a file autom
 
 Every review is saved as a dated file. You build up a review history for your project over time without any extra steps.
 
+DEPLOY appends to a single file:
+
+```
+[your-project-folder]/reviews/DEPLOY-LOG.md
+```
+
+Every successful deployment is logged with its date, version, destination, and the report dates of VIBECODER, GUARDIAN, and SENTINEL that cleared it. You build up a deployment history that maps directly to your security review history.
+
 ---
 
 ## Going further - reminders and project context
@@ -182,11 +197,19 @@ None of this is required to use Builder's Protocol. But if you want to understan
 
 ## Credits
 
-**Jon Gerton** - Jon-OS reviewed all six pipeline tools in March 2026. That review triggered major upgrades across the pipeline. SENTINEL's pass/fail threshold system and expanded injection attack library came directly from his findings. The session-extract knowledge workflow concept is also his. Jon runs [You Craft and AI Helps](https://www.skool.com/you-craft-ai-helps/about?ref=37798d7ddad04c0eba94008aa147ebed).
+Specific people made specific parts better. The rest I built.
 
-**Simon Willison** - the Lethal Trifecta check inside GUARDIAN (private user data + untrusted input + external action capability = critical security risk) is based on his work. Source: Lenny Podcast, April 2026.
+**Jon Gerton** — Jon-OS review of all six tools in March 2026 closed two SENTINEL gaps (pass/fail thresholds, injection library). Session-extract concept is his. Runs [You Craft and AI Helps](https://www.skool.com/you-craft-ai-helps/about?ref=37798d7ddad04c0eba94008aa147ebed).
 
-**Matthew Sutherland** - the web content injection checks in VIBECODER, GUARDIAN and SENTINEL (instructions hidden in HTML comments, script tags, and third-party plugin output that target AI tools reading the page), the concealment instruction detection ("never tell the user" as the clearest tell of prompt injection), and the model variance note in SENTINEL (different models catch different injections, test across models on identical fixtures) are based on his real-world audit findings. Matthew is the founder of [ByteFlowAI](https://www.linkedin.com/in/matthew-sutherland-byteflowai/).
+**Nicholas Vidal** — Guardianship framing, operating logic of GUARDIAN's phases, cascade failure framing (AI fails in loops, chains, and cascades). Six operational checks across the phases: named owner with response time (Phase 6), data impact labels (Phase 2), kill-switch drill (Phase 4), misuse moment script (Phase 2), logs need an owner (Phase 5), track changes log. [nicholasvidal.tech](https://nicholasvidal.tech/)
+
+**Cole Medin** — creator of [Archon](https://github.com/coleam00/Archon). His Dark Factory framing of mechanical pipeline enforcement showed me the pipeline needed a human gate. I built DEPLOY to be that gate. Archon and DEPLOY are different tools doing different jobs.
+
+**Matthew Sutherland** — web content injection checks in VIBECODER, GUARDIAN and SENTINEL; concealment instruction detection ("never tell the user"); model variance note in SENTINEL. From his real-world audit findings. Founder of [ByteFlowAI](https://www.linkedin.com/in/matthew-sutherland-byteflowai/).
+
+**Simon Willison** — Lethal Trifecta check in GUARDIAN (private user data + untrusted input + external action = critical risk). Source: Lenny's Podcast, April 2026.
+
+**Kevin Farrugia** — "nightmare scenario in one sentence" framing for Phase 2 severity classification. Incentive problem framing (companies are rewarded for speed to market, not kill switches). [Community](https://www.skool.com/placeholder-group-6477/about).
 
 ---
 
@@ -198,7 +221,7 @@ The human decides. The AI prepares.
 
 Security is built in from the start, not added at the end.
 
-Run GUARDIAN before any production push. Run SENTINEL on anything that has real users and AI components. Run BRAINSTORM before you build anything - ideas that skip planning usually have a scope problem.
+Run GUARDIAN before any production push. Run SENTINEL on anything that has real users and AI components. Run BRAINSTORM before you build anything - ideas that skip planning usually have a scope problem. Run DEPLOY last, every time. It is the gate that catches what the rest of the pipeline assumed was handled.
 
 A product that ships small and works is better than one planned perfectly and never launched.
 

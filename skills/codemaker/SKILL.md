@@ -498,7 +498,7 @@ Before CODEMAKER starts:
 After CODEMAKER builds:
 - VIBECODER scans what was built for vulnerabilities and documents it
 - CODEKEEPER takes over for maintenance, fixes and extensions
-- GUARDIAN-OS reviews before deployment
+- GUARDIAN reviews before deployment
 - SENTINEL tests if the project includes AI components — this is not optional
 
 AI component detection — trigger SENTINEL automatically if the project:
@@ -530,6 +530,15 @@ Fill in before starting any client project:
 10. Deadline or timeline:
 11. What success looks like for v1:
 12. Does this include AI components? (yes/no — if yes SENTINEL runs after build)
+
+---
+
+## EVOLUTION LOG
+
+Format: Date | What changed | Why
+
+2026-04 | Initial release | First public version
+2026-05-08 | EVOLUTION LOG section added across all six skills | Show downloaders at a glance whether the skill is current and maintained
 
 ---
 

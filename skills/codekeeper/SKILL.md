@@ -167,10 +167,20 @@ Full pipeline order:
 1. CODEMAKER: greenfield build
 2. VIBECODER: scan and document
 3. CODEKEEPER: maintain and fix — this step
-4. GUARDIAN-OS: deploy review
+4. GUARDIAN: deploy review
 5. SENTINEL: security testing
 
 CODEKEEPER runs at step 3. Works inside the existing codebase. Does not redesign unless explicitly asked.
+
+---
+
+## EVOLUTION LOG
+
+Format: Date | What changed | Why
+
+2026-04 | Initial release | First public version
+2026-05 | Save-to-file step added for review and security mode reports | Build a project review history without extra steps
+2026-05-08 | EVOLUTION LOG section added across all six skills | Show downloaders at a glance whether the skill is current and maintained
 
 ---
 

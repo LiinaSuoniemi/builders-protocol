@@ -219,7 +219,7 @@ Full pipeline order:
 1. CODEMAKER: greenfield build
 2. VIBECODER: scan and document
 3. CODEKEEPER: maintain and fix
-4. GUARDIAN-OS: deploy review
+4. GUARDIAN: deploy review
 5. SENTINEL: security testing
 
 Before BRAINSTORM:
@@ -261,6 +261,15 @@ This section is completed automatically during the brainstorm. By the end of Sta
 10. Deadline or timeline:
 11. What success looks like for v1:
 12. Does this include AI components? Yes or No — if yes SENTINEL runs after CODEMAKER builds
+
+---
+
+## EVOLUTION LOG
+
+Format: Date | What changed | Why
+
+2026-04 | Initial release | First public version
+2026-05-08 | EVOLUTION LOG section added across all six skills | Show downloaders at a glance whether the skill is current and maintained
 
 ---
 
