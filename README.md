@@ -159,11 +159,11 @@ Four tools have an **ADAPT THIS SECTION** block at the end of their SKILL.md fil
 
 These skills do not send email or push notifications by default. Reports are written to chat and saved to `reviews/TOOLNAME-YYYYMMDD.md`. If you want alerts when a report contains a Critical finding, wire it up yourself. Three working setups below.
 
-### Alert on Critical findings — three options
+### Alert on Critical findings - three options
 
 Each option uses the same trigger: a script that scans the most recent file in `reviews/` for the word `CRITICAL` and pings you if it finds one. Pick the one that fits your stack.
 
-**Option 1 — Slack webhook (free, 5 minutes)**
+**Option 1 - Slack webhook (free, 5 minutes)**
 
 1. Create an incoming webhook at https://api.slack.com/messaging/webhooks. Copy the URL.
 2. Save this as `alert.sh` in your project root:
@@ -181,7 +181,7 @@ fi
 
 3. Run `bash alert.sh` after each VIBECODER, GUARDIAN, or SENTINEL session.
 
-**Option 2 — Email via Resend (free for 100 emails/day)**
+**Option 2 - Email via Resend (free for 100 emails/day)**
 
 1. Sign up at https://resend.com, get an API key, verify a sending domain.
 2. Save as `alert.sh`:
@@ -199,7 +199,7 @@ fi
 
 3. Run after each session.
 
-**Option 3 — Desktop notification (no third-party service)**
+**Option 3 - Desktop notification (no third-party service)**
 
 ```bash
 #!/bin/bash
@@ -245,7 +245,7 @@ Archon is Cole Medin's open-source harness builder. It encodes a development pro
 
 **Conceptual setup:**
 
-1. Install Archon — follow the install instructions in Archon's repo (the exact command may change as the project evolves).
+1. Install Archon - follow the install instructions in Archon's repo (the exact command may change as the project evolves).
 
 2. Create a workflow file in your project that defines the pipeline order. Each phase checks that the corresponding Builder's Protocol report exists in `reviews/` and passed:
    - `vibecoder-scan` — expects `reviews/VIBECODER-*.md` to exist; fail if any unresolved CRITICAL findings
@@ -261,7 +261,7 @@ Archon is Cole Medin's open-source harness builder. It encodes a development pro
 
 Archon catches mechanical lapses (you forgot to run SENTINEL). DEPLOY catches judgment lapses (SENTINEL passed but you have not actually tested the kill switch). A clean Archon run does not mean it is safe to ship. A clean DEPLOY run after a clean Archon run does.
 
-**Refer to Archon's documentation** for the exact YAML syntax — Archon evolves and the README's job is to point you at the right tool, not to mirror its docs. Archon's repo has install instructions, example workflows, and version-specific syntax.
+**Refer to Archon's documentation** for the exact YAML syntax - Archon evolves and the README's job is to point you at the right tool, not to mirror its docs. Archon's repo has install instructions, example workflows, and version-specific syntax.
 
 ---
 
@@ -307,17 +307,17 @@ None of this is required to use Builder's Protocol. But if you want to understan
 
 Specific people made specific parts better. The rest I built.
 
-**Jon Gerton** — review of all six tools in March 2026 closed two SENTINEL gaps (pass/fail thresholds, injection library). Session-extract concept is his. Runs [You Craft and AI Helps](https://www.skool.com/you-craft-ai-helps/about?ref=37798d7ddad04c0eba94008aa147ebed).
+**Jon Gerton** - review of all six tools in March 2026 closed two SENTINEL gaps (pass/fail thresholds, injection library). Session-extract concept is his. Runs [You Craft and AI Helps](https://www.skool.com/you-craft-ai-helps/about?ref=37798d7ddad04c0eba94008aa147ebed).
 
-**Nicholas Vidal** — Guardianship framing, operating logic of GUARDIAN's phases, cascade failure framing (AI fails in loops, chains, and cascades). Six operational checks across the phases: named owner with response time (Phase 6), data impact labels (Phase 2), kill-switch drill (Phase 4), misuse moment script (Phase 2), logs need an owner (Phase 5), track changes log. [nicholasvidal.tech](https://nicholasvidal.tech/)
+**Nicholas Vidal** - Guardianship framing, operating logic of GUARDIAN's phases, cascade failure framing (AI fails in loops, chains, and cascades). Six operational checks across the phases: named owner with response time (Phase 6), data impact labels (Phase 2), kill-switch drill (Phase 4), misuse moment script (Phase 2), logs need an owner (Phase 5), track changes log. [nicholasvidal.tech](https://nicholasvidal.tech/)
 
-**Cole Medin** — creator of [Archon](https://github.com/coleam00/Archon). His Dark Factory framing of mechanical pipeline enforcement showed me the pipeline needed a human gate. I built DEPLOY to be that gate. Archon and DEPLOY are different tools doing different jobs.
+**Cole Medin** - creator of [Archon](https://github.com/coleam00/Archon). His Dark Factory framing of mechanical pipeline enforcement showed me the pipeline needed a human gate. I built DEPLOY to be that gate. Archon and DEPLOY are different tools doing different jobs.
 
-**Matthew Sutherland** — web content injection checks in VIBECODER, GUARDIAN and SENTINEL; concealment instruction detection ("never tell the user"); model variance note in SENTINEL. From his real-world audit findings. Founder of [ByteFlowAI](https://www.linkedin.com/in/matthew-sutherland-byteflowai/).
+**Matthew Sutherland** - web content injection checks in VIBECODER, GUARDIAN and SENTINEL; concealment instruction detection ("never tell the user"); model variance note in SENTINEL. From his real-world audit findings. Founder of [ByteFlowAI](https://www.linkedin.com/in/matthew-sutherland-byteflowai/).
 
-**Simon Willison** — Lethal Trifecta check in GUARDIAN (private user data + untrusted input + external action = critical risk). Source: Lenny's Podcast, April 2026.
+**Simon Willison** - Lethal Trifecta check in GUARDIAN (private user data + untrusted input + external action = critical risk). Source: Lenny's Podcast, April 2026.
 
-**Kevin Farrugia** — "nightmare scenario in one sentence" framing for Phase 2 severity classification. Incentive problem framing (companies are rewarded for speed to market, not kill switches). [Community](https://www.skool.com/placeholder-group-6477/about).
+**Kevin Farrugia** - "nightmare scenario in one sentence" framing for Phase 2 severity classification. Incentive problem framing (companies are rewarded for speed to market, not kill switches). [Community](https://www.skool.com/placeholder-group-6477/about).
 
 ---
 
