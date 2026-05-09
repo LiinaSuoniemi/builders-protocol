@@ -1,6 +1,6 @@
 # Builder's Protocol
 
-A seven-tool pipeline for building AI-assisted software safely.
+An eight-tool pipeline for building AI-assisted software safely.
 
 Built for solo developers and first-time builders who use Claude Code. Gives structure to the full build cycle - from rough idea to deployed product - with security checks at every stage.
 
@@ -10,14 +10,14 @@ Built for solo developers and first-time builders who use Claude Code. Gives str
 
 When you build with AI assistance, it is easy to end up with code that works but nobody fully understands. Or code that ships before anyone checked whether it is safe. Or a half-finished idea that becomes a half-finished product because the brief was never clear.
 
-Builder's Protocol gives you seven focused tools, each with one job, used in order. Together they cover the full journey from "I have an idea" to "this is ready to ship."
+Builder's Protocol gives you eight focused tools, each with one job, used in order. Together they cover the full journey from "I have an idea" to a product that stays safe after it ships.
 
 ---
 
 ## The pipeline
 
 ```
-BRAINSTORM → CODEMAKER → VIBECODER → CODEKEEPER → GUARDIAN → SENTINEL → DEPLOY
+BRAINSTORM → CODEMAKER → VIBECODER → CODEKEEPER → GUARDIAN → SENTINEL → DEPLOY → MONITOR
 ```
 
 | Step | Tool | What it does |
@@ -29,10 +29,11 @@ BRAINSTORM → CODEMAKER → VIBECODER → CODEKEEPER → GUARDIAN → SENTINEL 
 | 4 | GUARDIAN | Reviews everything before it goes live |
 | 5 | SENTINEL | Tests AI systems for security vulnerabilities |
 | 6 | DEPLOY | Pre-deployment gate. Confirms the previous tools ran and passed before anything ships |
+| 7 | MONITOR | Post-deployment behavioral regression testing. Runs on a schedule after the system is live |
 
-Each tool hands off to the next. BRAINSTORM produces a brief CODEMAKER can start from directly. VIBECODER documents what CODEMAKER built so CODEKEEPER can work safely. GUARDIAN reviews before SENTINEL tests. DEPLOY is the human confirmation gate that nothing ships without.
+Each tool hands off to the next. BRAINSTORM produces a brief CODEMAKER can start from directly. VIBECODER documents what CODEMAKER built so CODEKEEPER can work safely. GUARDIAN reviews before SENTINEL tests. DEPLOY is the human confirmation gate that nothing ships without. MONITOR keeps watching after it ships.
 
-You do not have to use all seven every time. A small fix might only need CODEKEEPER and GUARDIAN. A new project starts at BRAINSTORM. An inherited codebase starts at VIBECODER. DEPLOY runs last, every time something goes to real users.
+You do not have to use all eight every time. A small fix might only need CODEKEEPER and GUARDIAN. A new project starts at BRAINSTORM. An inherited codebase starts at VIBECODER. DEPLOY runs last before code reaches users. MONITOR runs after, on a schedule.
 
 ---
 
@@ -52,7 +53,7 @@ You do not have to use all seven every time. A small fix might only need CODEKEE
 
 **I inherited someone else's codebase** → VIBECODER to map what is there, then CODEKEEPER for fixes
 
-**Whatever path you take, if the code is going to real users** → DEPLOY runs last. Always. No exceptions.
+**Whatever path you take, if the code is going to real users** → DEPLOY runs last before it ships. MONITOR runs after, on a schedule. Both are required.
 
 ---
 
@@ -318,6 +319,8 @@ Specific people made specific parts better. The rest I built.
 **Simon Willison** — Lethal Trifecta check in GUARDIAN (private user data + untrusted input + external action = critical risk). Source: Lenny's Podcast, April 2026.
 
 **Kevin Farrugia** — "nightmare scenario in one sentence" framing for Phase 2 severity classification. Incentive problem framing (companies are rewarded for speed to market, not kill switches). [Community](https://www.skool.com/placeholder-group-6477/about).
+
+**[Hlias Staurou](https://linkedin.com/in/hlias-staurou-a632a197)** — named the post-deployment monitoring gap. His description of ATLAS runtime verification (Ed25519-signed receipts, five-gate execution verification on every live request) made the distinction precise: pre-deployment review catches design failures, runtime verification catches execution failures. That distinction is what MONITOR is built on. Builder of AetherCode, production AI proxy with Zero-Trust AI Execution.
 
 ---
 

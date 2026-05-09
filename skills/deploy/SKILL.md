@@ -259,9 +259,11 @@ Full pipeline order:
 4. GUARDIAN: deploy review
 5. SENTINEL: security testing
 6. DEPLOY: pre-deployment gate — this step
+7. MONITOR: post-deployment behavioral regression testing
 
-DEPLOY runs last. After GUARDIAN and SENTINEL have both completed.
-Nothing ships without passing DEPLOY.
+DEPLOY is the last pre-deployment step. After GUARDIAN and SENTINEL have both completed. Nothing ships without passing DEPLOY.
+
+After DEPLOY: MONITOR runs on a schedule to catch silent behavioral regression in the live system. DEPLOY gets the code to production. MONITOR keeps watching after it is there.
 
 ---
 
