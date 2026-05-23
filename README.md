@@ -1,6 +1,6 @@
 # Builder's Protocol
 
-An eight-tool pipeline for building AI-assisted software safely.
+A nine-tool pipeline for building AI-assisted software safely.
 
 Built for solo developers and first-time builders who use Claude Code. Gives structure to the full build cycle - from rough idea to deployed product - with security checks at every stage.
 
@@ -10,14 +10,14 @@ Built for solo developers and first-time builders who use Claude Code. Gives str
 
 When you build with AI assistance, it is easy to end up with code that works but nobody fully understands. Or code that ships before anyone checked whether it is safe. Or a half-finished idea that becomes a half-finished product because the brief was never clear.
 
-Builder's Protocol gives you eight focused tools, each with one job, used in order. Together they cover the full journey from "I have an idea" to a product that stays safe after it ships.
+Builder's Protocol gives you nine focused tools, each with one job, used in order. Together they cover the full journey from "I have an idea" to a product that stays safe after it ships.
 
 ---
 
 ## The pipeline
 
 ```
-BRAINSTORM → CODEMAKER → VIBECODER → CODEKEEPER → GUARDIAN → SENTINEL → DEPLOY → MONITOR
+BRAINSTORM → CODEMAKER → VIBECODER → CODEKEEPER → EXAMINER → GUARDIAN → SENTINEL → DEPLOY → MONITOR
 ```
 
 | Step | Tool | What it does |
@@ -26,14 +26,15 @@ BRAINSTORM → CODEMAKER → VIBECODER → CODEKEEPER → GUARDIAN → SENTINEL 
 | 1 | CODEMAKER | Builds new projects from scratch - clean, safe, documented |
 | 2 | VIBECODER | Scans what was built and reports what to watch out for |
 | 3 | CODEKEEPER | Maintains, fixes, and extends existing code |
-| 4 | GUARDIAN | Reviews everything before it goes live |
-| 5 | SENTINEL | Tests AI systems for security vulnerabilities |
-| 6 | DEPLOY | Pre-deployment gate. Confirms the previous tools ran and passed before anything ships |
-| 7 | MONITOR | Post-deployment behavioral regression testing. Runs on a schedule after the system is live |
+| 4 | EXAMINER | Checks comprehension and scans for the failure patterns AI-generated code introduces silently. Runs every session |
+| 5 | GUARDIAN | Reviews everything before it goes live |
+| 6 | SENTINEL | Tests AI systems for security vulnerabilities |
+| 7 | DEPLOY | Pre-deployment gate. Confirms the previous tools ran and passed before anything ships |
+| 8 | MONITOR | Post-deployment behavioral regression testing. Runs on a schedule after the system is live |
 
-Each tool hands off to the next. BRAINSTORM produces a brief CODEMAKER can start from directly. VIBECODER documents what CODEMAKER built so CODEKEEPER can work safely. GUARDIAN reviews before SENTINEL tests. DEPLOY is the human confirmation gate that nothing ships without. MONITOR keeps watching after it ships.
+Each tool hands off to the next. BRAINSTORM produces a brief CODEMAKER can start from directly. VIBECODER documents what CODEMAKER built so CODEKEEPER can work safely. EXAMINER runs after any session where AI wrote code, before handing off to GUARDIAN. GUARDIAN reviews before SENTINEL tests. DEPLOY is the human confirmation gate that nothing ships without. MONITOR keeps watching after it ships.
 
-You do not have to use all eight every time. A small fix might only need CODEKEEPER and GUARDIAN. A new project starts at BRAINSTORM. An inherited codebase starts at VIBECODER. DEPLOY runs last before code reaches users. MONITOR runs after, on a schedule.
+You do not have to use all nine every time. A small fix might only need CODEKEEPER, EXAMINER, and GUARDIAN. A new project starts at BRAINSTORM. An inherited codebase starts at VIBECODER. EXAMINER runs every session that touched code. DEPLOY runs last before code reaches users. MONITOR runs after, on a schedule.
 
 ---
 
@@ -47,11 +48,13 @@ You do not have to use all eight every time. A small fix might only need CODEKEE
 
 **I need to fix a bug or add a feature to existing code** → CODEKEEPER
 
-**My code is ready and I want to check it before deploying** → GUARDIAN
+**My code is ready and I want to check it before deploying** → EXAMINER then GUARDIAN
 
-**I have AI features talking to real users** → GUARDIAN then SENTINEL
+**I have AI features talking to real users** → EXAMINER then GUARDIAN then SENTINEL
 
 **I inherited someone else's codebase** → VIBECODER to map what is there, then CODEKEEPER for fixes
+
+**I just finished a session where AI wrote or modified code** → EXAMINER, before anything else
 
 **Whatever path you take, if the code is going to real users** → DEPLOY runs last before it ships. MONITOR runs after, on a schedule. Both are required.
 
@@ -63,18 +66,19 @@ You do not need the full pipeline every time. Pick the entry point that fits wha
 
 | Situation | Tools |
 |-----------|-------|
-| Fix a bug in code you know well | CODEKEEPER → GUARDIAN |
-| Add a feature to existing code | CODEKEEPER → GUARDIAN |
-| New feature on an existing project, scope unclear | BRAINSTORM → CODEMAKER → GUARDIAN |
+| Fix a bug in code you know well | CODEKEEPER → EXAMINER → GUARDIAN |
+| Add a feature to existing code | CODEKEEPER → EXAMINER → GUARDIAN |
+| New feature on an existing project, scope unclear | BRAINSTORM → CODEMAKER → EXAMINER → GUARDIAN |
 | Inherited a codebase, no documentation | VIBECODER → CODEKEEPER |
-| Audit before a production push | GUARDIAN |
+| Audit before a production push | EXAMINER → GUARDIAN |
 | AI system already live, want to stress-test it | SENTINEL |
-| Vibe-coded project, unclear what was built | VIBECODER → GUARDIAN → SENTINEL |
+| Vibe-coded project, unclear what was built | VIBECODER → EXAMINER → GUARDIAN → SENTINEL |
 | Quick idea check, not ready to build yet | BRAINSTORM only |
 | Security review only, no new code | GUARDIAN → SENTINEL |
-| Taking over someone else's AI project | VIBECODER → GUARDIAN → SENTINEL |
-| Refactor with no new features | CODEKEEPER → GUARDIAN |
-| Pre-launch audit with AI components | GUARDIAN → SENTINEL → DEPLOY |
+| Taking over someone else's AI project | VIBECODER → EXAMINER → GUARDIAN → SENTINEL |
+| Refactor with no new features | CODEKEEPER → EXAMINER → GUARDIAN |
+| Pre-launch audit with AI components | EXAMINER → GUARDIAN → SENTINEL → DEPLOY |
+| AI just wrote code in this session | EXAMINER, before closing the session |
 | Pushing code to real users | DEPLOY (after previous tools passed) |
 
 **SENTINEL** is for AI systems with real users. Standard web app, no AI features - skip it. GUARDIAN covers the rest.
@@ -82,6 +86,8 @@ You do not need the full pipeline every time. Pick the entry point that fits wha
 **BRAINSTORM** is for when scope is unclear. If you already know exactly what to build, skip it and go straight to CODEMAKER.
 
 **VIBECODER** is the right entry point any time you are working with code you did not write or have not read - whether that is inherited, AI-generated, or just unfamiliar.
+
+**EXAMINER** is the only tool that runs at the end of every coding session where AI wrote or modified code. It is not optional and it is not skippable, because the failure modes it catches (try/catch swallowing real bugs, implementation-vs-contract testing, async race conditions, slow-rotting maintainability) pass tests and survive review. They show up months later. Run EXAMINER while the session context is still fresh.
 
 **DEPLOY** runs last, every time. It is the human confirmation gate that the previous tools have actually run and passed before anything reaches real users. Do not skip it because the rest of the pipeline ran clean. The point of DEPLOY is the verification, not the verdict.
 
@@ -133,9 +139,11 @@ Each tool is a folder with a `SKILL.md` file inside. The folder name becomes the
 /codemaker
 /vibecoder
 /codekeeper
+/examiner
 /guardian
 /sentinel
 /deploy
+/monitor
 ```
 
 **Step 4.** Verify it worked. Type `/brainstorm` in a fresh Claude Code session. If the skill activates and starts asking you questions about your idea, the install is correct. If nothing happens, check that the folder is at exactly `~/.claude/skills/brainstorm/SKILL.md` (Mac/Linux) or `C:\Users\[your-username]\.claude\skills\brainstorm\SKILL.md` (Windows) — the folder name has to match the slash command.
@@ -156,7 +164,7 @@ Jon teaches Claude Code from the beginning - what it is, how to set it up, how t
 
 Four tools have an **ADAPT THIS SECTION** block at the end of their SKILL.md file: **BRAINSTORM, CODEMAKER, CODEKEEPER, VIBECODER**. Open the file, fill in your project name, tech stack, deployment platform, and any areas that must not be changed without explicit permission. The tool reads this on every run so you do not have to repeat the context.
 
-**GUARDIAN, SENTINEL, and DEPLOY** do not have ADAPT blocks. They run on whatever you describe to them at activation, plus the reports they read from `reviews/` (see next section).
+**EXAMINER, GUARDIAN, SENTINEL, and DEPLOY** do not have ADAPT blocks. They run on whatever you describe to them at activation, plus the reports they read from `reviews/` (see next section).
 
 These skills do not send email or push notifications by default. Reports are written to chat and saved to `reviews/TOOLNAME-YYYYMMDD.md`. If you want alerts when a report contains a Critical finding, wire it up yourself. Three working setups below.
 
@@ -180,7 +188,7 @@ if [ -n "$LATEST" ] && grep -q CRITICAL "$LATEST"; then
 fi
 ```
 
-3. Run `bash alert.sh` after each VIBECODER, GUARDIAN, or SENTINEL session.
+3. Run `bash alert.sh` after each VIBECODER, EXAMINER, GUARDIAN, or SENTINEL session.
 
 **Option 2 - Email via Resend (free for 100 emails/day)**
 
@@ -250,6 +258,7 @@ Archon is Cole Medin's open-source harness builder. It encodes a development pro
 
 2. Create a workflow file in your project that defines the pipeline order. Each phase checks that the corresponding Builder's Protocol report exists in `reviews/` and passed:
    - `vibecoder-scan` — expects `reviews/VIBECODER-*.md` to exist; fail if any unresolved CRITICAL findings
+   - `examiner-check` — expects `reviews/EXAMINER-*.md`; fail if verdict is BLOCK
    - `guardian-review` — expects `reviews/GUARDIAN-*.md`; fail if signal is RED
    - `sentinel-eval` — expects `reviews/SENTINEL-*.md`; fail if result is FAIL (only required if the project has AI components)
    - `deploy-gate` — expects `reviews/DEPLOY-LOG.md` updated for current version; fail if not GREEN
@@ -268,7 +277,7 @@ Archon catches mechanical lapses (you forgot to run SENTINEL). DEPLOY catches ju
 
 ## Review reports saved automatically
 
-VIBECODER, CODEKEEPER, GUARDIAN, and SENTINEL save their reports to a file automatically after each run:
+VIBECODER, CODEKEEPER, EXAMINER, GUARDIAN, and SENTINEL save their reports to a file automatically after each run:
 
 ```
 [your-project-folder]/reviews/TOOLNAME-YYYYMMDD.md
@@ -322,6 +331,8 @@ Specific people made specific parts better. The rest I built.
 
 **[Hlias Staurou](https://linkedin.com/in/hlias-staurou-a632a197)** — named the post-deployment monitoring gap. His description of ATLAS runtime verification (Ed25519-signed receipts, five-gate execution verification on every live request) made the distinction precise: pre-deployment review catches design failures, runtime verification catches execution failures. That distinction is what MONITOR is built on. Builder of AetherCode, production AI proxy with Zero-Trust AI Execution.
 
+**[Maksim Z.](https://www.linkedin.com/in/spacenear-cr)** — anti-pattern scan in EXAMINER. His comment on a LinkedIn thread named four specific failure modes AI-generated code introduces silently: try/catch swallowing real bugs, tests written to match the implementation rather than the contract, race conditions in async flows, and the slow-rotting maintainability problem that bites teams 18 months in. None of these were named patterns in any other Builder's Protocol tool. EXAMINER was built directly from his observation.
+
 ---
 
 ## Philosophy
@@ -332,7 +343,7 @@ The human decides. The AI prepares.
 
 Security is built in from the start, not added at the end.
 
-Run GUARDIAN before any production push. Run SENTINEL on anything that has real users and AI components. Run BRAINSTORM before you build anything - ideas that skip planning usually have a scope problem. Run DEPLOY last, every time. It is the gate that catches what the rest of the pipeline assumed was handled.
+Run EXAMINER at the end of every session where AI wrote or modified code - the failure modes it catches pass tests and survive review. Run GUARDIAN before any production push. Run SENTINEL on anything that has real users and AI components. Run BRAINSTORM before you build anything - ideas that skip planning usually have a scope problem. Run DEPLOY last, every time. It is the gate that catches what the rest of the pipeline assumed was handled.
 
 A product that ships small and works is better than one planned perfectly and never launched.
 
