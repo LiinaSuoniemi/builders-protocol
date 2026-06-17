@@ -16,8 +16,14 @@ Builder's Protocol gives you nine focused tools, each with one job, used in orde
 
 ## The pipeline
 
-```
-BRAINSTORM → CODEMAKER → VIBECODER → CODEKEEPER → EXAMINER → GUARDIAN → SENTINEL → DEPLOY → MONITOR
+```mermaid
+flowchart LR
+    A[fa:fa-lightbulb BRAINSTORM] --> B[fa:fa-code CODEMAKER] --> C[fa:fa-search VIBECODER] --> D[fa:fa-wrench CODEKEEPER]
+    D --> E([fa:fa-eye EXAMINER]) --> F([fa:fa-shield GUARDIAN]) --> G([fa:fa-bug SENTINEL]) --> H{fa:fa-rocket DEPLOY}
+    H -->|pass| L[(fa:fa-globe live product)]
+    H -->|fail| D
+    M((fa:fa-chart-line MONITOR)) -. watches .-> L
+    M -. regression found .-> D
 ```
 
 | Step | Tool | What it does |
