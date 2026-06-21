@@ -168,7 +168,7 @@ Jon teaches Claude Code from the beginning - what it is, how to set it up, how t
 
 ## Configuration
 
-Four tools have an **ADAPT THIS SECTION** block at the end of their SKILL.md file: **BRAINSTORM, CODEMAKER, CODEKEEPER, VIBECODER**. Open the file, fill in your project name, tech stack, deployment platform, and any areas that must not be changed without explicit permission. The tool reads this on every run so you do not have to repeat the context.
+Five tools have an **ADAPT THIS SECTION** block at the end of their SKILL.md file: **BRAINSTORM, CODEMAKER, CODEKEEPER, VIBECODER, MONITOR**. Open the file, fill in your project name, tech stack, deployment platform, and any areas that must not be changed without explicit permission. The tool reads this on every run so you do not have to repeat the context.
 
 **EXAMINER, GUARDIAN, SENTINEL, and DEPLOY** do not have ADAPT blocks. They run on whatever you describe to them at activation, plus the reports they read from `reviews/` (see next section).
 
@@ -283,7 +283,7 @@ Archon catches mechanical lapses (you forgot to run SENTINEL). DEPLOY catches ju
 
 ## Review reports saved automatically
 
-VIBECODER, CODEKEEPER, EXAMINER, GUARDIAN, and SENTINEL save their reports to a file automatically after each run:
+VIBECODER, CODEKEEPER, EXAMINER, GUARDIAN, SENTINEL, and MONITOR save their reports to a file automatically after each run:
 
 ```
 [your-project-folder]/reviews/TOOLNAME-YYYYMMDD.md
