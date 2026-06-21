@@ -323,9 +323,9 @@ None of this is required to use Builder's Protocol. But if you want to understan
 
 Specific people made specific parts better. The rest I built.
 
-**Jon Gerton** - review of all six tools in March 2026 closed two SENTINEL gaps (pass/fail thresholds, injection library). Session-extract concept is his. Runs [You Craft and AI Helps](https://www.skool.com/you-craft-ai-helps/about?ref=37798d7ddad04c0eba94008aa147ebed).
+**Jon Gerton** - review of the tools in March 2026 closed two SENTINEL gaps (pass/fail thresholds, injection library). Runs [You Craft and AI Helps](https://www.skool.com/you-craft-ai-helps/about?ref=37798d7ddad04c0eba94008aa147ebed).
 
-**Nicholas Vidal** - Guardianship framing, operating logic of GUARDIAN's phases, cascade failure framing (AI fails in loops, chains, and cascades). Six operational checks across the phases: named owner with response time (Phase 6), data impact labels (Phase 2), kill-switch drill (Phase 4), misuse moment script (Phase 2), logs need an owner (Phase 5), track changes log. [nicholasvidal.tech](https://nicholasvidal.tech/)
+**Nicholas Vidal** - named owner with response time (GUARDIAN Phase 6) and the kill-switch drill (Phase 4). [nicholasvidal.tech](https://nicholasvidal.tech/)
 
 **Cole Medin** - creator of [Archon](https://github.com/coleam00/Archon). His Dark Factory framing of mechanical pipeline enforcement showed me the pipeline needed a human gate. I built DEPLOY to be that gate. Archon and DEPLOY are different tools doing different jobs.
 
@@ -333,7 +333,7 @@ Specific people made specific parts better. The rest I built.
 
 **Simon Willison** - Lethal Trifecta check in GUARDIAN (private user data + untrusted input + external action = critical risk). Source: Lenny's Podcast, April 2026.
 
-**Kevin Farrugia** - "nightmare scenario in one sentence" framing for Phase 2 severity classification. Incentive problem framing (companies are rewarded for speed to market, not kill switches). [Community](https://www.skool.com/placeholder-group-6477/about).
+**Kevin Farrugia** - the nightmare-scenario-in-one-sentence framing for GUARDIAN Phase 2 severity. [Community](https://www.skool.com/placeholder-group-6477/about).
 
 **[Hlias Staurou](https://linkedin.com/in/hlias-staurou-a632a197)** — named the post-deployment monitoring gap. His description of ATLAS runtime verification (Ed25519-signed receipts, five-gate execution verification on every live request) made the distinction precise: pre-deployment review catches design failures, runtime verification catches execution failures. That distinction is what MONITOR is built on. Builder of AetherCode, production AI proxy with Zero-Trust AI Execution.
 

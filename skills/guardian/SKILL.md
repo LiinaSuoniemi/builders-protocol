@@ -154,7 +154,7 @@ Run in this order. Do not skip phases.
 
 2. For each: what happens if an attacker sends unexpected input?
 
-3. For each: what is the worst-case outcome?
+3. For each: write the worst-case outcome as a nightmare scenario in one sentence. If you cannot say it in one sentence, you do not understand the risk yet.
 
 4. Classify each: CRITICAL (money or data), HIGH (reputation or access), MEDIUM (spam or noise), LOW (cosmetic).
 
@@ -207,6 +207,8 @@ Web content injection check: if the system fetches external web content that an 
 
 3. Who can perform the shutdown or rollback?
 
+4. Have you actually run the kill switch and confirmed it works, not just assumed it? A kill switch that has never been tested is a guess. If never drilled: HIGH.
+
 
 
 **PHASE 5 — LOGGING AND MONITORING**
@@ -226,6 +228,8 @@ Web content injection check: if the system fetches external web content that an 
 2. Is least privilege enforced?
 
 3. Is 2FA enabled on admin accounts, hosting, DNS, domain registrar?
+
+4. Is there a named owner accountable for this system, with an expected response time if it breaks? An unowned system has no one to call during an incident. If no named owner: HIGH.
 
 
 
@@ -431,13 +435,13 @@ Workflow: GUARDIAN Deploy Review first, SENTINEL Full Evaluation second.
 
 
 
-Nicholas Vidal — Guardianship framing, operating logic of the phases, cascade failure framing (AI fails in loops, chains, and cascades). Six operational checks across the phases: named owner with response time (Phase 6), data impact labels (Phase 2), kill-switch drill (Phase 4), misuse moment script (Phase 2), logs need an owner (Phase 5), track changes log. https://nicholasvidal.tech/
+Nicholas Vidal — named owner with response time (Phase 6) and the kill-switch drill (Phase 4). https://nicholasvidal.tech/
 
-Kevin Farrugia — "nightmare scenario in one sentence" framing for Phase 2 severity classification. https://www.skool.com/placeholder-group-6477/about
+Kevin Farrugia — nightmare-scenario-in-one-sentence framing for Phase 2 severity (Phase 2, check 3). https://www.skool.com/placeholder-group-6477/about
 
-Simon Willison — Lethal Trifecta check (private user data + untrusted input + external action = critical risk). Source: Lenny's Podcast, April 2026.
+Simon Willison — Lethal Trifecta check in Phase 3 (private user data + untrusted input + external action = critical risk). Source: Lenny's Podcast, April 2026.
 
-Matthew Sutherland — web content injection detection across this skill. Founder of ByteFlowAI.
+Matthew Sutherland — web content injection detection and the "never tell the user" concealment check (Phase 3). Founder of ByteFlowAI.
 
 
 
@@ -454,6 +458,8 @@ Format: Date | What changed | Why
 2026-05 | Web content injection detection added; concealment instruction check added; save-to-file step added for review reports | Catch hidden injection patterns; build a deploy review history
 
 2026-05-08 | EVOLUTION LOG section added across all skills; CREDITS section added naming Nicholas Vidal and Kevin Farrugia for previously uncredited contributions; renamed from GUARDIAN-OS to GUARDIAN | Make credits accurate; consistent naming across the protocol
+
+2026-06-21 | Implemented named owner with response time (Phase 6), kill-switch drill (Phase 4), and nightmare-scenario-in-one-sentence severity (Phase 2). Trimmed credits to only contributions present in the tool | Every credit must be verifiable against the skill text
 
 
 
