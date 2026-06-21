@@ -339,6 +339,8 @@ Specific people made specific parts better. The rest I built.
 
 **[Maksim Z.](https://www.linkedin.com/in/spacenear-cr)** — anti-pattern scan in EXAMINER. His comment on a LinkedIn thread named four specific failure modes AI-generated code introduces silently: try/catch swallowing real bugs, tests written to match the implementation rather than the contract, race conditions in async flows, and the slow-rotting maintainability problem that bites teams 18 months in. None of these were named patterns in any other Builder's Protocol tool. EXAMINER was built directly from his observation.
 
+**[Ivett Ördög](https://github.com/devill/habit-hooks)**, creator of Habit Hooks. Her work named the detection layer EXAMINER was missing. EXAMINER is a skill, so it leans on the model to notice smells, which models are unreliable at. Habit Hooks flips that: deterministic scripts find the smell, the model only reacts, and the guidance arrives right at the smell instead of as a rule buried earlier in the context. A false positive can be ignored, so the detector does not need to be perfect. The detection hook in examiner-hook/ is a first version built on that idea.
+
 ---
 
 ## Philosophy
