@@ -1,0 +1,6 @@
+# Config for the EXAMINER hook demo, so the manual "before" command stays short.
+[lint]
+select = ["C901", "BLE001"]
+
+[lint.mccabe]
+max-complexity = 5
