@@ -97,6 +97,13 @@ Reason: [what the human said vs what is required]
 
 Scan the provided files for four specific patterns:
 
+**Automated backstop (live hook).** Two of these smells are now caught automatically at edit time by the examiner-hook, a PostToolUse hook that ships in this repo (see `examiner-hook/` and `.claude/settings.json`). When you edit a Python file, the hook runs ruff and surfaces the coaching prompt right at the smell, without anyone invoking EXAMINER:
+
+- Blind `except` (ruff BLE001). This is the most common form of Pattern A below.
+- Functions past a complexity threshold (ruff C901).
+
+So the anti-pattern scan is now partly continuous instead of once per session. What the hook does not catch, and this manual scan still owns: implementation-vs-contract testing (Pattern B), async race conditions (Pattern C), and dead code (Pattern D). And Check 1, the comprehension gate, stays fully human. A linter can tell you code smells. It cannot tell you whether you understand your code.
+
 **PATTERN A — Exception swallowing**
 
 Look for: try/except or try/catch blocks that catch an exception and do nothing meaningful with it. Nothing meaningful means: no logging, no re-raise, no user notification, no fallback that preserves the error information.
