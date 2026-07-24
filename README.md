@@ -301,6 +301,67 @@ Every successful deployment is logged with its date, version, destination, and t
 
 ---
 
+## The EXAMINER hook: automatic anti-pattern coaching
+
+EXAMINER (step 4) is a skill you run by hand. The **examiner-hook** makes part of it automatic.
+
+It is a small script that runs every time Claude Code edits a Python file. If the edit introduces a smell, it shows Claude the matching coaching prompt right at that moment, so the fix happens in the same session instead of surfacing months later. This is the "house rule" made mechanical: understand your code, and never swallow an error silently.
+
+Right now it catches two things, using the ruff linter:
+
+- A blind `except` (ruff rule BLE001). The most common way a real error gets hidden and turns into a bug you debug blind later.
+- A function that has grown too complex (ruff rule C901). The kind that quietly does more than one job.
+
+On a clean edit it stays quiet. It never blocks an edit. It informs, it does not undo. A false positive costs you nothing, you just ignore it. That is the whole idea behind the detection layer from Ivett Ördög's Habit Hooks (credited below): a deterministic script finds the smell, the model only reacts.
+
+It covers Python for now, because the detector is ruff based. The same pattern extends to other linters later.
+
+### Turn it on
+
+This repo already ships the hook wired up. If you clone it and open it in Claude Code, it asks you once to approve the hook, and then it is live.
+
+To add it to your own project:
+
+**1.** Install ruff, the linter the hook runs:
+```
+pip install ruff
+```
+
+**2.** Copy the `examiner-hook/` folder into your project.
+
+**3.** Create `.claude/settings.json` in your project with this:
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/examiner-hook/examiner_hook.py\" --hook",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+On Windows, change `python3` to `python`.
+
+**4.** Open Claude Code in your project and approve the hook when it asks. Then edit a Python file that has a blind `except` or a large function, and watch the coaching appear on its own.
+
+### Test it by hand first
+
+You do not need Claude Code to see what it does. Run the detector directly on any Python file:
+```
+python3 examiner-hook/examiner_hook.py path/to/file.py
+```
+It prints each smell it finds and the coaching that goes with it. The included `examiner-hook/demo_messy_example.py` is a good file to try it on.
+
+---
+
 ## Going further - reminders and project context
 
 The skills work as standalone tools. No extra setup required.
