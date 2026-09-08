@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 \"$CLAUDE_PROJECT_DIR/examiner-hook/examiner_hook.py\" --hook",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/examiner-hook/examiner_hook.py\" --hook || python \"$CLAUDE_PROJECT_DIR/examiner-hook/examiner_hook.py\" --hook",
             "timeout": 30
           }
         ]

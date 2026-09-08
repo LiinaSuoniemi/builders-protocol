@@ -62,6 +62,10 @@ def detect(paths):
         result = subprocess.run(cmd, capture_output=True, text=True)
     except OSError:
         return None
+    # ruff exits 1 both when it finds violations and when it cannot run at all.
+    # Only the second case leaves stdout empty.
+    if result.returncode != 0 and not result.stdout.strip():
+        return None
     try:
         return json.loads(result.stdout or "[]")
     except json.JSONDecodeError:
