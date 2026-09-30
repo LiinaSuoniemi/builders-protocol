@@ -98,12 +98,31 @@ def run_cli(paths):
     print()
 
 
-def run_hook():
-    """PostToolUse mode: read stdin JSON, coach on the edited file if it smells.
+def hook_context(path, findings):
+    """Text for the agent: a warning if ruff failed, coaching if the file
+    smells, None if it is clean."""
+    if findings is None:
+        return (
+            f"EXAMINER hook could not run ruff. {os.path.basename(path)} was "
+            "NOT checked for smells. Tell the user the check did not run."
+        )
+    if not findings:
+        return None
+    blocks = []
+    for finding in findings:
+        loc, code, message, prompt = describe(finding)
+        blocks.append(f"{loc} [{code}] {message}\n  -> {prompt}")
+    return (
+        "EXAMINER hook flagged smells in the file you just edited. Fix the root "
+        "cause, do not suppress the warning:\n\n" + "\n\n".join(blocks)
+    )
 
-    Always exits 0. Prints the coaching prompt as additionalContext only when
-    the edited Python file smells; prints nothing otherwise. A hook that errored
-    or blocked would interrupt the session, so every failure path stays silent."""
+
+def run_hook():
+    """PostToolUse mode: read stdin JSON, report on the edited Python file.
+
+    Always exits 0. Prints additionalContext when the file smells or when ruff
+    could not run. Prints nothing when the file is clean."""
     try:
         event = json.load(sys.stdin)
     except (json.JSONDecodeError, ValueError):
@@ -114,17 +133,9 @@ def run_hook():
     path = tool_input.get("file_path") or tool_input.get("path")
     if not path or not path.endswith(".py") or not os.path.isfile(path):
         return
-    findings = detect([path])
-    if not findings:  # None (ruff failed) or [] (clean) -> say nothing
+    context = hook_context(path, detect([path]))
+    if not context:
         return
-    blocks = []
-    for finding in findings:
-        loc, code, message, prompt = describe(finding)
-        blocks.append(f"{loc} [{code}] {message}\n  -> {prompt}")
-    context = (
-        "EXAMINER hook flagged smells in the file you just edited. Fix the root "
-        "cause, do not suppress the warning:\n\n" + "\n\n".join(blocks)
-    )
     print(json.dumps({
         "hookSpecificOutput": {
             "hookEventName": "PostToolUse",
