@@ -1,4 +1,5 @@
 ---
+name: guardian
 
 description: Use this skill when reviewing any system before deployment, checking security of code or automations that touch real data, reviewing emotionally charged messages before sending, or running a pre-launch safety check on any project. Activates for deploy reviews, DM safety checks, ethics reviews, and security audits.
 

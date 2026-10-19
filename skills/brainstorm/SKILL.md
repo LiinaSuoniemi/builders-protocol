@@ -1,4 +1,5 @@
 ---
+name: brainstorm
 description: Use this skill when you have a rough idea, a problem you want to solve, or a product concept that is not yet defined enough to build. Also activates when someone says "I have an idea", "I want to build something", "I am thinking about making", or describes a problem without a solution yet. BRAINSTORM helps you think it through, identify what matters, separate phase 1 from later phases, and produce a clear brief that CODEMAKER can start from directly. BRAINSTORM never makes technical decisions — that is CODEMAKER's job. BRAINSTORM stays at the product and user level until the brief is complete.
 ---
 

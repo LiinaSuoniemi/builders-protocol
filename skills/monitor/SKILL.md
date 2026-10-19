@@ -1,4 +1,5 @@
 ---
+name: monitor
 
 description: Use this skill after deploying an AI system to catch silent behavioral regression. Activates when you want to verify that an AI system still behaves as expected after a model update, provider change, or time has passed since the last test. Run after every deployment and on a regular schedule. MONITOR is the only Builder's Protocol tool that keeps running after the code ships.
 

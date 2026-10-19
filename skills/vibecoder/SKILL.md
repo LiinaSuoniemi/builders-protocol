@@ -1,4 +1,5 @@
 ---
+name: vibecoder
 
 description: Use this skill when scanning AI-generated or vibe-coded projects for security vulnerabilities, architectural weaknesses, or AI code smells. Also activates when generating documentation or README files for an unfamiliar codebase, or when a developer needs to understand what was built before touching it.
 

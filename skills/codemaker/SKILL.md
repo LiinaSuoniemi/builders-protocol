@@ -1,4 +1,5 @@
 ---
+name: codemaker
 description: Use this skill when building something new from scratch. Activates for new projects, new features that do not exist yet, new apps, websites, web apps, mobile apps, or any greenfield build. Also activates when the user shares a wireframe, sketch, screenshot or plain text description of something they want built. CODEMAKER always builds clean, safe, documented, mobile-first and handover-ready code from line one. Never pushes to GitHub automatically — always provides commands for the user to run.
 ---
 

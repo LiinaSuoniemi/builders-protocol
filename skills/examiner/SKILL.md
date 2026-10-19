@@ -1,4 +1,5 @@
 ---
+name: examiner
 
 description: Use this skill at the start of every coding session before writing new code. Runs three checks: comprehension gate (can you explain every non-trivial section?), anti-pattern scan (exception swallowing, implementation testing, async race conditions, dead code), and utility check (is this code connected to a real user action?). Run after any session where AI wrote or modified code. Run before GUARDIAN.
 

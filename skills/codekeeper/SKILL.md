@@ -1,4 +1,5 @@
 ---
+name: codekeeper
 description: Use this skill when maintaining, debugging, extending or reviewing code in a specific project. Activates for bug fixes, code reviews, adding new features, explaining what code does, security reviews of existing code, or refactoring. Always works inside the existing codebase without redesigning unless explicitly asked.
 ---
 

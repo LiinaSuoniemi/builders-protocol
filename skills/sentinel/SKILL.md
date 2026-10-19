@@ -1,4 +1,5 @@
 ---
+name: sentinel
 
 description: Use this skill when evaluating AI systems, prompts, or agents for security vulnerabilities, identity drift, injection resistance, or architectural weaknesses. Activates when someone wants to stress-test an AI system, run a security evaluation before sharing with users, or test prompt injection resistance.
 

@@ -1,4 +1,5 @@
 ---
+name: deploy
 description: Use this skill before any deployment to production or before sharing any project with real users. Activates when you are about to push to Railway, Render, or any live environment, or when a project is moving from private to public. DEPLOY enforces the Builder's Protocol security pipeline by requiring confirmation that VIBECODER, GUARDIAN and SENTINEL have run and passed. Nothing goes to production without completing this checklist. No exceptions.
 ---
 
