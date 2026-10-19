@@ -98,12 +98,12 @@ Reason: [what the human said vs what is required]
 
 Scan the provided files for four specific patterns:
 
-**Automated backstop (optional hook).** Two of these smells can be caught automatically at edit time by the examiner-hook, a PostToolUse hook for Claude Code. It is not part of this skill. Install it from https://github.com/LiinaSuoniemi/builders-protocol (`examiner-hook/` and `.claude/settings.json`). Once installed, when you edit a Python file, the hook runs ruff and surfaces the coaching prompt right at the smell, without anyone invoking EXAMINER:
+**Automated backstop (optional).** Builder's Protocol also has a separate add-on for Claude Code, the examiner-hook. It is in the `examiner-hook/` folder of the Builder's Protocol repo, not in this file. When installed, it checks each Python file Claude Code edits and flags two smells right away. It needs ruff installed.
 
 - Blind `except` (ruff BLE001). This is the most common form of Pattern A below.
 - Functions past a complexity threshold (ruff C901).
 
-With the hook, the anti-pattern scan is partly continuous instead of once per session. Without it, this manual scan covers all four patterns. What the hook does not catch, and this manual scan still owns: implementation-vs-contract testing (Pattern B), async race conditions (Pattern C), and dead code (Pattern D). And Check 1, the comprehension gate, stays fully human. A linter can tell you code smells. It cannot tell you whether you understand your code.
+With the add-on, two smells are caught as Claude Code works. Without it, this manual scan covers all four. What the hook does not catch, and this manual scan still owns: implementation-vs-contract testing (Pattern B), async race conditions (Pattern C), and dead code (Pattern D). And Check 1, the comprehension gate, stays fully human. A linter can tell you code smells. It cannot tell you whether you understand your code.
 
 **PATTERN A — Exception swallowing**
 
