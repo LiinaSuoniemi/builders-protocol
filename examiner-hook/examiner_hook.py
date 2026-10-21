@@ -2,7 +2,7 @@
 """
 EXAMINER detection hook.
 
-Idea credit: Ivett Ordog, Habit Hooks (https://github.com/devill/habit-hooks).
+Idea credit: Ivett Ordog, Habit Hooks (https://github.com/habit-hooks/habit-hooks).
 
 The principle: a deterministic linter finds a cheap proxy that correlates with
 AI slop. It does not need to be bulletproof. The linter only points; the
